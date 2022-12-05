@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: woconstraint
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      pod: noconstraint
+  template:
+    metadata:
+      name: mypod
+      labels:
+        pod: noconstraint
+    spec:
+      containers:
+      - name: pause
+        image: registry.k8s.io/pause:3.1

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: spreaddeploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      pod: stretched
+  template:
+    metadata:
+      name: mypod
+      labels:
+        pod: stretched
+    spec:
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            pod: stretched
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            pod: stretched
+      containers:
+      - name: pause
+        image: registry.k8s.io/pause:3.1
