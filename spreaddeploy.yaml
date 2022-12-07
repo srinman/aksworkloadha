@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 # systempool set with taint CriticalAddonsOnly=true:NoSchedule
 #  systempool spans across all 3 zone
-# three nodepools for workload aka work1
+# three nodepools for workload aka work1 - all 3 set with taint work1only=yes:NoSchedule
 #  z1 in zone1
 #  z2 in zone2
 #  z3 in zone3
