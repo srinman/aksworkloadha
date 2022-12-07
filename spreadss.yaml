@@ -1,48 +1,32 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: Statefulset
 metadata:
   creationTimestamp: null
-  name: spreaddeploy
+  name: spreadss
 spec:
   replicas: 3
   selector:
     matchLabels:
-      pod: stretched
+      pod: stretchedss
   template:
     metadata:
       name: mypod
       labels:
-        pod: stretched
+        pod: stretchedss
     spec:
-      affinity: 
-        nodeAffinity: 
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: kubernetes.azure.com/agentpool
-                operator: In
-                values:
-                - z1
-                - z2
-                - z3
-      tolerations: 
-      - key: "work1only"
-        operator: "Equal"
-        value: "yes"
-        effect: "NoSchedule"
       topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: topology.kubernetes.io/zone
         whenUnsatisfiable: DoNotSchedule
         labelSelector:
           matchLabels:
-            pod: stretched
+            pod: stretchedss
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
         whenUnsatisfiable: DoNotSchedule
         labelSelector:
           matchLabels:
-            pod: stretched
+            pod: stretchedss
       containers:
       - name: pause
         image: registry.k8s.io/pause:3.1
