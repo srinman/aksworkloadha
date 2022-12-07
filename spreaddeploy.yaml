@@ -1,5 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
+# systempool set with taint CriticalAddonsOnly=true:NoSchedule
+#  systempool spans across all 3 zone
+# three nodepools for workload aka work1
+#  z1 in zone1
+#  z2 in zone2
+#  z3 in zone3
+# other nodepools with or without taint
+#  all zone or specific zones
+# with the following yaml, workload will land evenly in z1,z2,z3 and also evenly within z1,z2,z3
+# k scale deploy spreaddeploy --replicas=12  (use multiples of total # of nodes in z1,z2,3)
+# k get pod -o wide --sort-by=.spec.nodeName
 metadata:
   creationTimestamp: null
   name: spreaddeploy
